@@ -193,7 +193,7 @@ function AdminAnalytics() {
                   borderRadius: 6,
                   fontSize: 12,
                 }}
-                formatter={(v: number) => `${v} h`}
+                formatter={(v) => `${v} h`}
               />
               <Bar dataKey="hours" fill="var(--color-chart-2)" radius={[0, 4, 4, 0]} />
             </BarChart>

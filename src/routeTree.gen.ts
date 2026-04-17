@@ -12,11 +12,18 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppRouteImport } from './routes/app'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AppResourcesRouteImport } from './routes/app.resources'
 import { Route as AppNotificationsRouteImport } from './routes/app.notifications'
 import { Route as AppBookingsRouteImport } from './routes/app.bookings'
+import { Route as AdminUsersRouteImport } from './routes/admin.users'
+import { Route as AdminResourcesRouteImport } from './routes/admin.resources'
+import { Route as AdminReallocationsRouteImport } from './routes/admin.reallocations'
+import { Route as AdminBookingsRouteImport } from './routes/admin.bookings'
+import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -33,6 +40,11 @@ const AppRoute = AppRouteImport.update({
   path: '/app',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -42,6 +54,11 @@ const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppRoute,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
 } as any)
 const AppResourcesRoute = AppResourcesRouteImport.update({
   id: '/resources',
@@ -58,71 +75,137 @@ const AppBookingsRoute = AppBookingsRouteImport.update({
   path: '/bookings',
   getParentRoute: () => AppRoute,
 } as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminResourcesRoute = AdminResourcesRouteImport.update({
+  id: '/resources',
+  path: '/resources',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminReallocationsRoute = AdminReallocationsRouteImport.update({
+  id: '/reallocations',
+  path: '/reallocations',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminBookingsRoute = AdminBookingsRouteImport.update({
+  id: '/bookings',
+  path: '/bookings',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/bookings': typeof AdminBookingsRoute
+  '/admin/reallocations': typeof AdminReallocationsRoute
+  '/admin/resources': typeof AdminResourcesRoute
+  '/admin/users': typeof AdminUsersRoute
   '/app/bookings': typeof AppBookingsRoute
   '/app/notifications': typeof AppNotificationsRoute
   '/app/resources': typeof AppResourcesRoute
+  '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/bookings': typeof AdminBookingsRoute
+  '/admin/reallocations': typeof AdminReallocationsRoute
+  '/admin/resources': typeof AdminResourcesRoute
+  '/admin/users': typeof AdminUsersRoute
   '/app/bookings': typeof AppBookingsRoute
   '/app/notifications': typeof AppNotificationsRoute
   '/app/resources': typeof AppResourcesRoute
+  '/admin': typeof AdminIndexRoute
   '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/bookings': typeof AdminBookingsRoute
+  '/admin/reallocations': typeof AdminReallocationsRoute
+  '/admin/resources': typeof AdminResourcesRoute
+  '/admin/users': typeof AdminUsersRoute
   '/app/bookings': typeof AppBookingsRoute
   '/app/notifications': typeof AppNotificationsRoute
   '/app/resources': typeof AppResourcesRoute
+  '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/app'
     | '/login'
     | '/signup'
+    | '/admin/analytics'
+    | '/admin/bookings'
+    | '/admin/reallocations'
+    | '/admin/resources'
+    | '/admin/users'
     | '/app/bookings'
     | '/app/notifications'
     | '/app/resources'
+    | '/admin/'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/login'
     | '/signup'
+    | '/admin/analytics'
+    | '/admin/bookings'
+    | '/admin/reallocations'
+    | '/admin/resources'
+    | '/admin/users'
     | '/app/bookings'
     | '/app/notifications'
     | '/app/resources'
+    | '/admin'
     | '/app'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/app'
     | '/login'
     | '/signup'
+    | '/admin/analytics'
+    | '/admin/bookings'
+    | '/admin/reallocations'
+    | '/admin/resources'
+    | '/admin/users'
     | '/app/bookings'
     | '/app/notifications'
     | '/app/resources'
+    | '/admin/'
     | '/app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
   AppRoute: typeof AppRouteWithChildren
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
@@ -151,6 +234,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -164,6 +254,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/'
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/app/resources': {
       id: '/app/resources'
@@ -186,8 +283,63 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppBookingsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/resources': {
+      id: '/admin/resources'
+      path: '/resources'
+      fullPath: '/admin/resources'
+      preLoaderRoute: typeof AdminResourcesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/reallocations': {
+      id: '/admin/reallocations'
+      path: '/reallocations'
+      fullPath: '/admin/reallocations'
+      preLoaderRoute: typeof AdminReallocationsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/bookings': {
+      id: '/admin/bookings'
+      path: '/bookings'
+      fullPath: '/admin/bookings'
+      preLoaderRoute: typeof AdminBookingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/analytics': {
+      id: '/admin/analytics'
+      path: '/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AdminAnalyticsRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
+
+interface AdminRouteChildren {
+  AdminAnalyticsRoute: typeof AdminAnalyticsRoute
+  AdminBookingsRoute: typeof AdminBookingsRoute
+  AdminReallocationsRoute: typeof AdminReallocationsRoute
+  AdminResourcesRoute: typeof AdminResourcesRoute
+  AdminUsersRoute: typeof AdminUsersRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminAnalyticsRoute: AdminAnalyticsRoute,
+  AdminBookingsRoute: AdminBookingsRoute,
+  AdminReallocationsRoute: AdminReallocationsRoute,
+  AdminResourcesRoute: AdminResourcesRoute,
+  AdminUsersRoute: AdminUsersRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface AppRouteChildren {
   AppBookingsRoute: typeof AppBookingsRoute
@@ -207,6 +359,7 @@ const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
   AppRoute: AppRouteWithChildren,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
