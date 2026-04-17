@@ -21,7 +21,7 @@ import { Activity, Clock, CheckCircle2, XCircle } from "lucide-react";
 import { hoursBetween } from "@/lib/booking-utils";
 
 export const Route = createFileRoute("/admin/analytics")({
-  component: AdminAnalytics;
+  component: AdminAnalytics,
 });
 
 function AdminAnalytics() {
