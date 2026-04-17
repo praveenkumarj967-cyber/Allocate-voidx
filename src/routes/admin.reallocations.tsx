@@ -150,7 +150,7 @@ function AdminReallocations() {
                     {s.emergency?.resources?.name ?? "—"}
                   </div>
                   <div className="text-xs text-muted-foreground">
-                    {s.emergency?.profiles?.display_name ?? s.emergency?.profiles?.email}
+                    {s.emergency?.profile?.display_name ?? s.emergency?.profile?.email}
                   </div>
                   {s.emergency && (
                     <div className="mt-1 text-xs">
@@ -175,7 +175,7 @@ function AdminReallocations() {
                     {s.displaced?.resources?.name ?? "—"}
                   </div>
                   <div className="text-xs text-muted-foreground">
-                    {s.displaced?.profiles?.display_name ?? s.displaced?.profiles?.email}
+                    {s.displaced?.profile?.display_name ?? s.displaced?.profile?.email}
                   </div>
                   {s.displaced && (
                     <div className="mt-1 text-xs">
