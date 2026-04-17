@@ -178,7 +178,7 @@ function ResourcesPage() {
       {bookingResource && (
         <BookingDialog
           resource={bookingResource}
-          onOpenChange={(open) => !open && setBookingResource(null)}
+          onOpenChange={(open: boolean) => !open && setBookingResource(null)}
         />
       )}
     </div>
