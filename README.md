@@ -8,12 +8,30 @@ Built for efficiency, transparency, and speed. Resource Navigator is a premium w
 
 ## 💎 Key Features
 
-- **🏆 Classic Amazing UI**: A high-density, glassmorphic interface designed for professional enterprise environments.
-- **🧠 Neural Assistant**: Integrated AI chatbot that handles natural language booking, system navigation, and real-time support.
-- **⚡ Intelligent Reallocation**: Priority-based engine that automatically suggests slot reassignments for emergency requests.
-- **🔍 Global Search & Discovery**: High-performance catalog with multi-layer filtering and instant QR-based check-ins.
-- **🛡️ Secure Identity**: Role-based access control (RBAC) powered by Supabase Auth and customized User Roles.
-- **📊 Real-time Insights**: Live dashboard tracking system health, utilization peaks, and booking timelines.
+### 🧠 Neural AI Assistant
+- **Natural Language Booking**: Simply type "Book a lab for tomorrow at 3 PM" and the assistant handles the logic.
+- **Voice-Enabled Commands**: Hands-free navigation and information retrieval using integrated browser speech recognition.
+- **Contextual Knowledge**: Instant answers regarding resource locations, availability, and system stats.
+
+### ⚡ Intelligent Reallocation Engine
+- **Priority Override**: High-priority or Emergency requests can trigger reallocation suggestions for existing bookings.
+- **Automated Conflict Detection**: The system identifies overlaps and suggests the most efficient way to resolve them.
+- **Admin Review Workflow**: Admins can approve displacements with a single click, triggering instant notifications to affected users.
+
+### 🔍 Global Resource Discovery
+- **High-Density Grid**: A compressed, glassmorphic view for managing large catalogs with zero lag.
+- **Multi-Layer Filtering**: Filter by category, price point, availability, and real-time status.
+- **Smart QR Check-ins**: Generate and scan on-site QR codes for instant booking validation.
+
+### 🛡️ Dynamic Priority & Safety
+- **Neural Priority Engine**: Automatically calculates the urgency of a booking based on user intent and resource scarcity.
+- **Automated No-Show Cleanup**: System-wide watchdog that cancels abandoned bookings to maximize resource utilization.
+- **Fair-Use Governance**: Per-user weekly caps and automated time-blocks to ensure equitable access for all team members.
+
+### 📊 Admin Command Center
+- **Enterprise Analytics**: Real-time tracking of peak usage hours, system health, and utilization rates.
+- **Role-Based Governance**: Secure management of users, administrative promotions, and resource constraints.
+- **Live System Health**: Monitoring service uptime and database synchronization status.
 
 ## 🛠️ Technology Stack
 
