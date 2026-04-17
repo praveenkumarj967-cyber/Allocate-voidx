@@ -15,7 +15,6 @@ Built for efficiency, transparency, and speed. Resource Navigator is a premium w
 ## 💎 Key Features
 
 ### 🧠 Neural AI Assistant
-![Neural Assistant](./docs/images/assistant.png)
 - **Natural Language Booking**: Simply type "Book a lab for tomorrow at 3 PM" and the assistant handles the logic.
 - **Voice-Enabled Commands**: Hands-free navigation and information retrieval using integrated browser speech recognition.
 - **Contextual Knowledge**: Instant answers regarding resource locations, availability, and system stats.
@@ -31,6 +30,11 @@ Built for efficiency, transparency, and speed. Resource Navigator is a premium w
 - **High-Density Grid**: A compressed, glassmorphic view for managing large catalogs with zero lag.
 - **Multi-Layer Filtering**: Filter by category, price point, availability, and real-time status.
 - **Smart QR Check-ins**: Generate and scan on-site QR codes for instant booking validation.
+
+### 📅 Seamless Booking Management
+![My Bookings](./docs/images/bookings.png)
+- **Real-Time Scheduling**: Manage your active sessions, past history, and waitlist status in one unified view.
+- **Waitlist Logic**: Automatically get notified when high-demand resources become available.
 
 ### 🛡️ Dynamic Priority & Safety
 - **Neural Priority Engine**: Automatically calculates the urgency of a booking based on user intent and resource scarcity.
