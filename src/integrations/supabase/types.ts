@@ -14,16 +14,347 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bookings: {
+        Row: {
+          auto_approved: boolean
+          created_at: string
+          displaced_by_booking_id: string | null
+          end_time: string
+          id: string
+          priority: Database["public"]["Enums"]["booking_priority"]
+          purpose: string | null
+          resource_id: string
+          start_time: string
+          status: Database["public"]["Enums"]["booking_status"]
+          total_cost: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          auto_approved?: boolean
+          created_at?: string
+          displaced_by_booking_id?: string | null
+          end_time: string
+          id?: string
+          priority?: Database["public"]["Enums"]["booking_priority"]
+          purpose?: string | null
+          resource_id: string
+          start_time: string
+          status?: Database["public"]["Enums"]["booking_status"]
+          total_cost?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          auto_approved?: boolean
+          created_at?: string
+          displaced_by_booking_id?: string | null
+          end_time?: string
+          id?: string
+          priority?: Database["public"]["Enums"]["booking_priority"]
+          purpose?: string | null
+          resource_id?: string
+          start_time?: string
+          status?: Database["public"]["Enums"]["booking_status"]
+          total_cost?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_displaced_by_booking_id_fkey"
+            columns: ["displaced_by_booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_resource_id_fkey"
+            columns: ["resource_id"]
+            isOneToOne: false
+            referencedRelation: "resources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notifications: {
+        Row: {
+          created_at: string
+          id: string
+          link: string | null
+          message: string
+          read: boolean
+          title: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          link?: string | null
+          message: string
+          read?: boolean
+          title: string
+          type?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          link?: string | null
+          message?: string
+          read?: boolean
+          title?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          display_name: string | null
+          email: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      reallocation_suggestions: {
+        Row: {
+          created_at: string
+          displaced_booking_id: string
+          emergency_booking_id: string
+          id: string
+          reason: string | null
+          resolved_at: string | null
+          resolved_by: string | null
+          status: Database["public"]["Enums"]["suggestion_status"]
+        }
+        Insert: {
+          created_at?: string
+          displaced_booking_id: string
+          emergency_booking_id: string
+          id?: string
+          reason?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          status?: Database["public"]["Enums"]["suggestion_status"]
+        }
+        Update: {
+          created_at?: string
+          displaced_booking_id?: string
+          emergency_booking_id?: string
+          id?: string
+          reason?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          status?: Database["public"]["Enums"]["suggestion_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reallocation_suggestions_displaced_booking_id_fkey"
+            columns: ["displaced_booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reallocation_suggestions_emergency_booking_id_fkey"
+            columns: ["emergency_booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      resource_categories: {
+        Row: {
+          created_at: string
+          description: string | null
+          icon: string | null
+          id: string
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      resources: {
+        Row: {
+          auto_approve: boolean
+          capacity: number
+          category_id: string
+          closing_time: string
+          created_at: string
+          description: string | null
+          hourly_cost: number
+          id: string
+          location: string | null
+          max_hours_per_user_per_week: number
+          name: string
+          opening_time: string
+          status: Database["public"]["Enums"]["resource_status"]
+          updated_at: string
+        }
+        Insert: {
+          auto_approve?: boolean
+          capacity?: number
+          category_id: string
+          closing_time?: string
+          created_at?: string
+          description?: string | null
+          hourly_cost?: number
+          id?: string
+          location?: string | null
+          max_hours_per_user_per_week?: number
+          name: string
+          opening_time?: string
+          status?: Database["public"]["Enums"]["resource_status"]
+          updated_at?: string
+        }
+        Update: {
+          auto_approve?: boolean
+          capacity?: number
+          category_id?: string
+          closing_time?: string
+          created_at?: string
+          description?: string | null
+          hourly_cost?: number
+          id?: string
+          location?: string | null
+          max_hours_per_user_per_week?: number
+          name?: string
+          opening_time?: string
+          status?: Database["public"]["Enums"]["resource_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "resources_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "resource_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      waitlist: {
+        Row: {
+          created_at: string
+          id: string
+          notified: boolean
+          priority: Database["public"]["Enums"]["booking_priority"]
+          requested_end: string
+          requested_start: string
+          resource_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          notified?: boolean
+          priority?: Database["public"]["Enums"]["booking_priority"]
+          requested_end: string
+          requested_start: string
+          resource_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          notified?: boolean
+          priority?: Database["public"]["Enums"]["booking_priority"]
+          requested_end?: string
+          requested_start?: string
+          resource_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "waitlist_resource_id_fkey"
+            columns: ["resource_id"]
+            isOneToOne: false
+            referencedRelation: "resources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
+      booking_priority: "emergency" | "high" | "normal"
+      booking_status:
+        | "pending"
+        | "approved"
+        | "rejected"
+        | "cancelled"
+        | "completed"
+        | "displaced"
+      resource_status: "active" | "maintenance" | "inactive"
+      suggestion_status: "pending" | "approved" | "rejected"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +481,19 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+      booking_priority: ["emergency", "high", "normal"],
+      booking_status: [
+        "pending",
+        "approved",
+        "rejected",
+        "cancelled",
+        "completed",
+        "displaced",
+      ],
+      resource_status: ["active", "maintenance", "inactive"],
+      suggestion_status: ["pending", "approved", "rejected"],
+    },
   },
 } as const
