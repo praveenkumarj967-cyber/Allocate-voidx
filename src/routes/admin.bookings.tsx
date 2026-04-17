@@ -9,6 +9,7 @@ import { PageHeader } from "@/components/app-shell";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { notifyUser } from "@/lib/notifications";
+import { fetchProfilesByIds } from "@/lib/profile-utils";
 import {
   formatRange,
   priorityBadgeVariant,
@@ -105,7 +106,7 @@ function AdminBookings() {
                   <div className="truncate text-sm font-medium">
                     {b.resources?.name} ·{" "}
                     <span className="text-muted-foreground">
-                      {b.profiles?.display_name ?? b.profiles?.email}
+                      {b.profile?.display_name ?? b.profile?.email}
                     </span>
                   </div>
                   <div className="text-xs text-muted-foreground">

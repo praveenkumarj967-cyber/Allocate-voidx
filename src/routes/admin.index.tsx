@@ -4,6 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Activity, CalendarDays, Boxes, AlertTriangle, Clock } from "lucide-react";
 
 import { supabase } from "@/integrations/supabase/client";
+import { fetchProfilesByIds } from "@/lib/profile-utils";
 import { PageHeader, StatCard } from "@/components/app-shell";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -26,10 +27,12 @@ function AdminDashboard() {
     queryFn: async () => {
       const { data } = await supabase
         .from("bookings")
-        .select("*, resources(name), profiles!bookings_user_id_fkey(display_name, email)")
+        .select("*, resources(name)")
         .order("created_at", { ascending: false })
         .limit(50);
-      return data ?? [];
+      const list = data ?? [];
+      const profMap = await fetchProfilesByIds(list.map((b) => b.user_id));
+      return list.map((b) => ({ ...b, profile: profMap.get(b.user_id) ?? null }));
     },
   });
 
@@ -130,7 +133,7 @@ function AdminDashboard() {
                   <div className="truncate text-sm font-medium text-foreground">
                     {b.resources?.name} ·{" "}
                     <span className="text-muted-foreground">
-                      {b.profiles?.display_name ?? b.profiles?.email}
+                      {b.profile?.display_name ?? b.profile?.email}
                     </span>
                   </div>
                   <div className="text-xs text-muted-foreground">

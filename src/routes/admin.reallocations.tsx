@@ -6,6 +6,7 @@ import { Check, X, AlertTriangle } from "lucide-react";
 
 import { useAuth } from "@/lib/auth-context";
 import { supabase } from "@/integrations/supabase/client";
+import { fetchProfilesByIds } from "@/lib/profile-utils";
 import { PageHeader } from "@/components/app-shell";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -31,12 +32,19 @@ function AdminReallocations() {
         .from("reallocation_suggestions")
         .select(
           `*,
-           emergency:bookings!reallocation_suggestions_emergency_booking_id_fkey(*, resources(name), profiles!bookings_user_id_fkey(display_name, email)),
-           displaced:bookings!reallocation_suggestions_displaced_booking_id_fkey(*, resources(name), profiles!bookings_user_id_fkey(display_name, email))`,
+           emergency:bookings!reallocation_suggestions_emergency_booking_id_fkey(*, resources(name)),
+           displaced:bookings!reallocation_suggestions_displaced_booking_id_fkey(*, resources(name))`,
         )
         .eq("status", "pending")
         .order("created_at", { ascending: false });
-      return data ?? [];
+      const list = data ?? [];
+      const ids = list.flatMap((s) => [s.emergency?.user_id, s.displaced?.user_id]).filter(Boolean) as string[];
+      const profMap = await fetchProfilesByIds(ids);
+      return list.map((s) => ({
+        ...s,
+        emergency: s.emergency ? { ...s.emergency, profile: profMap.get(s.emergency.user_id) ?? null } : null,
+        displaced: s.displaced ? { ...s.displaced, profile: profMap.get(s.displaced.user_id) ?? null } : null,
+      }));
     },
   });
 
