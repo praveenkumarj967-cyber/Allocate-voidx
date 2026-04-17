@@ -31,11 +31,13 @@ function AdminBookings() {
     queryFn: async () => {
       let q = supabase
         .from("bookings")
-        .select("*, resources(name), profiles!bookings_user_id_fkey(display_name, email)")
+        .select("*, resources(name)")
         .order("start_time", { ascending: false });
       if (filter !== "all") q = q.eq("status", filter);
       const { data } = await q.limit(100);
-      return data ?? [];
+      const list = data ?? [];
+      const profMap = await fetchProfilesByIds(list.map((b) => b.user_id));
+      return list.map((b) => ({ ...b, profile: profMap.get(b.user_id) ?? null }));
     },
   });
 
