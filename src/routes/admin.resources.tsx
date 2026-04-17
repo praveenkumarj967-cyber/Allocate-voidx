@@ -265,10 +265,10 @@ function CategoryForm({
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-input bg-muted">
                 <IconRenderer name={icon} className="h-5 w-5" />
               </div>
-              <Input 
-                id="cicon" 
-                value={icon} 
-                onChange={(e) => setIcon(e.target.value)} 
+              <Input
+                id="cicon"
+                value={icon}
+                onChange={(e) => setIcon(e.target.value)}
                 placeholder="e.g. car, laptop, heart..."
               />
             </div>

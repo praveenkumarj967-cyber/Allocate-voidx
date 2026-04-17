@@ -4,21 +4,30 @@
 
 Built for efficiency, transparency, and speed. Resource Navigator is a premium workspace management platform designed to handle mission-critical resource allocation using intelligent priority-based logic and real-time neural assistance.
 
-![Platform Preview](https://images.unsplash.com/photo-1551288049-bbbda5366392?auto=format&fit=crop&q=80&w=2000)
+## 🖼️ Platform Preview
+
+![Dashboard Overview](./docs/images/dashboard.png)
+
+*The high-density "Classic Amazing" dashboard featuring personalized greetings and real-time utilization stats.*
+
+---
 
 ## 💎 Key Features
 
 ### 🧠 Neural AI Assistant
+![Neural Assistant](./docs/images/assistant.png)
 - **Natural Language Booking**: Simply type "Book a lab for tomorrow at 3 PM" and the assistant handles the logic.
 - **Voice-Enabled Commands**: Hands-free navigation and information retrieval using integrated browser speech recognition.
 - **Contextual Knowledge**: Instant answers regarding resource locations, availability, and system stats.
 
 ### ⚡ Intelligent Reallocation Engine
+![Admin Command Center](./docs/images/admin.png)
 - **Priority Override**: High-priority or Emergency requests can trigger reallocation suggestions for existing bookings.
 - **Automated Conflict Detection**: The system identifies overlaps and suggests the most efficient way to resolve them.
 - **Admin Review Workflow**: Admins can approve displacements with a single click, triggering instant notifications to affected users.
 
 ### 🔍 Global Resource Discovery
+![Resource Catalog](./docs/images/catalog.png)
 - **High-Density Grid**: A compressed, glassmorphic view for managing large catalogs with zero lag.
 - **Multi-Layer Filtering**: Filter by category, price point, availability, and real-time status.
 - **Smart QR Check-ins**: Generate and scan on-site QR codes for instant booking validation.
@@ -74,5 +83,5 @@ The system uses a robust PostgreSQL schema with advanced RLS (Row Level Security
 
 ---
 
-**Developed for the 2026 Hackathon Challenge.** 🏆
-🚀 *Built for speed. Designed for excellence.*
+### 🏆 Hackathon Submission
+🎯 **Developed for Aethornix 2026 Hackathon**
