@@ -2,7 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2 } from "lucide-react";
+import { Plus, Pencil, Trash2, Package, Search } from "lucide-react";
+import * as Icons from "lucide-react";
 
 import { supabase } from "@/integrations/supabase/client";
 import { PageHeader } from "@/components/app-shell";
@@ -36,6 +37,13 @@ type Category = Database["public"]["Tables"]["resource_categories"]["Row"];
 export const Route = createFileRoute("/admin/resources")({
   component: AdminResources,
 });
+
+const IconRenderer = ({ name, className }: { name: string; className?: string }) => {
+  const IconComponent = (Icons as any)[
+    name.charAt(0).toUpperCase() + name.slice(1).replace(/-([a-z])/g, (g) => g[1].toUpperCase())
+  ] || (Icons as any)[name] || Package;
+  return <IconComponent className={className} />;
+};
 
 function AdminResources() {
   const qc = useQueryClient();
@@ -106,23 +114,30 @@ function AdminResources() {
 
       {/* Categories */}
       <h2 className="mb-3 text-sm font-semibold tracking-tight">Categories</h2>
-      <div className="mb-8 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {(categories ?? []).map((c) => (
           <div
             key={c.id}
-            className="flex items-center justify-between rounded-md border border-border bg-card p-3"
+            className="group flex items-start justify-between rounded-xl border border-border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-md"
           >
-            <div className="min-w-0">
-              <div className="truncate text-sm font-medium">{c.name}</div>
-              {c.description && (
-                <div className="truncate text-xs text-muted-foreground">{c.description}</div>
-              )}
+            <div className="flex gap-3 min-w-0">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                <IconRenderer name={c.icon || "package"} className="h-5 w-5" />
+              </div>
+              <div className="min-w-0">
+                <div className="truncate text-sm font-semibold tracking-tight">{c.name}</div>
+                {c.description && (
+                  <div className="line-clamp-2 text-xs text-muted-foreground leading-relaxed mt-0.5">
+                    {c.description}
+                  </div>
+                )}
+              </div>
             </div>
-            <div className="flex shrink-0 items-center gap-1">
-              <Button size="sm" variant="ghost" onClick={() => setCatEditing(c)}>
+            <div className="flex shrink-0 items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+              <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => setCatEditing(c)}>
                 <Pencil className="h-3.5 w-3.5" />
               </Button>
-              <Button size="sm" variant="ghost" onClick={() => deleteCategory(c.id)}>
+              <Button size="icon" variant="ghost" className="h-8 w-8 text-destructive hover:bg-destructive/10 hover:text-destructive" onClick={() => deleteCategory(c.id)}>
                 <Trash2 className="h-3.5 w-3.5" />
               </Button>
             </div>
@@ -246,7 +261,20 @@ function CategoryForm({
           </div>
           <div>
             <Label htmlFor="cicon">Icon (lucide name)</Label>
-            <Input id="cicon" value={icon} onChange={(e) => setIcon(e.target.value)} />
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-input bg-muted">
+                <IconRenderer name={icon} className="h-5 w-5" />
+              </div>
+              <Input 
+                id="cicon" 
+                value={icon} 
+                onChange={(e) => setIcon(e.target.value)} 
+                placeholder="e.g. car, laptop, heart..."
+              />
+            </div>
+            <p className="mt-1 text-[10px] text-muted-foreground">
+              Use any <a href="https://lucide.dev/icons" target="_blank" rel="noreferrer" className="underline hover:text-primary">Lucide icon name</a>
+            </p>
           </div>
         </div>
         <DialogFooter>

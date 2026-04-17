@@ -16,6 +16,7 @@ import {
   STATUS_LABELS,
   statusBadgeVariant,
 } from "@/lib/booking-utils";
+import { notifyWaitlist } from "@/lib/notifications";
 
 export const Route = createFileRoute("/app/bookings")({
   component: MyBookingsPage,
@@ -81,9 +82,24 @@ function MyBookingsPage() {
   );
 
   const cancel = async (id: string) => {
+    // Get the resource name before cancelling
+    const { data: b } = await supabase
+      .from("bookings")
+      .select("resource_id, resources(name)")
+      .eq("id", id)
+      .single();
+
     const { error } = await supabase.from("bookings").update({ status: "cancelled" }).eq("id", id);
     if (error) toast.error(error.message);
-    else toast.success("Booking cancelled");
+    else {
+      toast.success("Booking cancelled");
+      if (b) {
+        await notifyWaitlist({
+          resourceId: b.resource_id,
+          resourceName: (b.resources as any)?.name || "resource",
+        });
+      }
+    }
   };
 
   const removeWaitlist = async (id: string) => {

@@ -8,7 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { PageHeader } from "@/components/app-shell";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { notifyUser } from "@/lib/notifications";
+import { notifyUser, notifyWaitlist } from "@/lib/notifications";
 import { fetchProfilesByIds } from "@/lib/profile-utils";
 import {
   formatRange,
@@ -67,6 +67,18 @@ function AdminBookings() {
       type: status === "approved" ? "success" : "warning",
       link: "/app/bookings",
     });
+
+    if (status === "rejected") {
+      // Find resource_id first
+      const { data: b } = await supabase.from("bookings").select("resource_id").eq("id", id).single();
+      if (b) {
+        await notifyWaitlist({
+          resourceId: b.resource_id,
+          resourceName,
+        });
+      }
+    }
+
     toast.success(`Booking ${status}`);
   };
 
@@ -129,7 +141,7 @@ function AdminBookings() {
                           update(b.id, "approved", b.user_id, b.resources?.name ?? "resource")
                         }
                       >
-                        <Check className="h-3.5 w-3.5" /> Approve
+                        <Check className="h-3.5 w-3.5" /> Accept
                       </Button>
                       <Button
                         size="sm"

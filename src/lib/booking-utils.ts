@@ -18,7 +18,7 @@ export const PRIORITY_LABELS: Record<BookingPriority, string> = {
 
 export const STATUS_LABELS: Record<BookingStatus, string> = {
   pending: "Pending",
-  approved: "Approved",
+  approved: "Accepted",
   rejected: "Rejected",
   cancelled: "Cancelled",
   completed: "Completed",

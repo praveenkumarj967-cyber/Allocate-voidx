@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
+import { calculateDynamicPriority } from "@/lib/priority-engine";
 import { AlertTriangle, Sparkles, CheckCircle2, Clock } from "lucide-react";
 
 import { supabase } from "@/integrations/supabase/client";
@@ -32,7 +33,7 @@ import {
   rangesOverlap,
   type BookingPriority,
 } from "@/lib/booking-utils";
-import { notifyUser } from "@/lib/notifications";
+import { notifyUser, notifyAdmins } from "@/lib/notifications";
 import type { Database } from "@/integrations/supabase/types";
 
 type Resource = Database["public"]["Tables"]["resources"]["Row"];
@@ -65,9 +66,25 @@ export function BookingDialog({ resource, onOpenChange }: Props) {
 
   const [start, setStart] = useState(toLocalInput(defaultStart));
   const [end, setEnd] = useState(toLocalInput(defaultEnd));
-  const [priority, setPriority] = useState<BookingPriority>("normal");
   const [purpose, setPurpose] = useState("");
+  const [priority, setPriority] = useState<BookingPriority>("normal");
   const [submitting, setSubmitting] = useState(false);
+
+  // Auto-calculate priority when purpose or start time changes
+  useEffect(() => {
+    if (!user) return;
+    const updatePriority = async () => {
+      const p = await calculateDynamicPriority({
+        purpose,
+        startTime: new Date(start),
+        userId: user.id,
+        resourceId: resource.id,
+      });
+      setPriority(p);
+    };
+    const timer = setTimeout(updatePriority, 500); // Debounce for typing
+    return () => clearTimeout(timer);
+  }, [purpose, start, user, resource.id]);
 
   // Existing bookings on this resource (active only)
   const [existing, setExisting] = useState<
@@ -165,11 +182,6 @@ export function BookingDialog({ resource, onOpenChange }: Props) {
 
   const submit = async (mode: "book" | "waitlist") => {
     if (!user) return;
-    if (!validRange) {
-      toast.error("End time must be after start time");
-      return;
-    }
-
     if (mode === "waitlist") {
       setSubmitting(true);
       const { error } = await supabase.from("waitlist").insert({
@@ -179,6 +191,15 @@ export function BookingDialog({ resource, onOpenChange }: Props) {
         requested_end: endDate.toISOString(),
         priority,
       });
+      
+      if (!error) {
+        await notifyAdmins({
+          title: "New Waitlist Entry",
+          message: `${user.email} joined the waitlist for "${resource.name}".`,
+          type: "info",
+        });
+      }
+
       setSubmitting(false);
       if (error) toast.error(error.message);
       else {
@@ -195,15 +216,17 @@ export function BookingDialog({ resource, onOpenChange }: Props) {
       return;
     }
 
+    setSubmitting(true);
+    
     if (blocking.length > 0) {
-      toast.error("This time conflicts with a booking of equal or higher priority. Try the next available slot or join the waitlist.");
+      setSubmitting(false);
+      toast.error("This time conflicts with a booking of equal or higher priority.");
       return;
     }
 
-    setSubmitting(true);
-    const autoApproved = resource.auto_approve && overridable.length === 0;
+    const autoApproved = resource.auto_approve && conflicts.length === 0;
     const status = autoApproved ? "approved" : "pending";
-
+    
     const { data: created, error } = await supabase
       .from("bookings")
       .insert({
@@ -245,6 +268,14 @@ export function BookingDialog({ resource, onOpenChange }: Props) {
       });
     }
 
+    // Notify Admins about the new booking
+    await notifyAdmins({
+      title: "New Booking Request",
+      message: `${user.email} has requested to book "${resource.name}" for ${requestedHours.toFixed(1)} hours.`,
+      type: autoApproved ? "success" : "info",
+      link: "/admin/bookings",
+    });
+
     setSubmitting(false);
     toast.success(autoApproved ? "Booking confirmed" : "Booking submitted for approval");
     onOpenChange(false);
@@ -283,20 +314,11 @@ export function BookingDialog({ resource, onOpenChange }: Props) {
             </div>
           </div>
 
-          <div className="space-y-1.5">
-            <Label>Priority</Label>
-            <Select value={priority} onValueChange={(v) => setPriority(v as BookingPriority)}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="normal">Normal</SelectItem>
-                <SelectItem value="high">High</SelectItem>
-                <SelectItem value="emergency">Emergency</SelectItem>
-              </SelectContent>
-            </Select>
-            <p className="text-xs text-muted-foreground">
-              Emergency overrides lower priorities (admin-confirmed) and bypasses fair-use caps.
+          <div className="space-y-1.5 p-3 rounded-md bg-primary/5 border border-primary/20">
+            <Label className="text-primary font-bold">Priority Allocation</Label>
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              Our AI automatically calculates your priority based on your purpose, timing, and history. 
+              <span className="font-bold text-foreground"> You don't need to choose.</span>
             </p>
           </div>
 
