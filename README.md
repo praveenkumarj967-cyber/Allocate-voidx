@@ -8,7 +8,7 @@ Built for efficiency, transparency, and speed. Resource Navigator is a premium w
 
 ![Dashboard Overview](./docs/images/dashboard.png)
 
-**https://allocate-voidx.vercel.app/app**
+**https://allocate-voidx.vercel.app**
 
 *The high-density "Classic Amazing" dashboard featuring personalized greetings and real-time utilization stats.*
 
