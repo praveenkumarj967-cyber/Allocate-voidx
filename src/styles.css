@@ -87,10 +87,11 @@
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: hsl(var(--border));
   }
   body {
-    @apply bg-background text-foreground;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
     font-family: 'Outfit', 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
@@ -98,11 +99,14 @@
 
 /* Original Amazing UI Components */
 .enterprise-card {
-  @apply bg-card border border-border/50 shadow-sm transition-all duration-300;
+  background-color: hsl(var(--card));
+  border: 1px solid hsla(var(--border), 0.5);
+  @apply shadow-sm transition-all duration-300;
 }
 
 .enterprise-card:hover {
-  @apply shadow-xl shadow-primary/5 -translate-y-1 border-primary/30;
+  @apply shadow-xl shadow-primary/5 -translate-y-1;
+  border-color: hsla(var(--primary), 0.3);
 }
 
 .premium-gradient-text {
@@ -129,5 +133,8 @@
 
 /* Glassmorphism utility */
 .glass-panel {
-  @apply bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-white/10;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background-color: hsla(var(--background), 0.7);
+  border: 1px solid hsla(var(--foreground), 0.1);
 }
