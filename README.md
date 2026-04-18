@@ -4,7 +4,7 @@
 
 Built for efficiency, transparency, and speed. Resource Navigator is a premium workspace management platform designed to handle mission-critical resource allocation using intelligent priority-based logic and real-time neural assistance.
 
-## 🖼️ Platform Preview
+## 🖼️ Platform Demo Link
 
 ![Dashboard Overview](./docs/images/dashboard.png)
 
